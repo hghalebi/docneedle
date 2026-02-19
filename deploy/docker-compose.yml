@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  opensearch:
+    image: opensearchproject/opensearch:2.11.1
+    container_name: pdf-search-opensearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - DISABLE_SECURITY_PLUGIN=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    ports:
+      - "9200:9200"
+
+  qdrant:
+    image: qdrant/qdrant:v1.10.1
+    container_name: pdf-search-qdrant
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant-data:/qdrant/storage
+
+  neo4j:
+    image: neo4j:5
+    container_name: pdf-search-neo4j
+    environment:
+      - NEO4J_AUTH=${NEO4J_AUTH:-neo4j/password}
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j-data:/data
+
+volumes:
+  opensearch-data:
+  qdrant-data:
+  neo4j-data:

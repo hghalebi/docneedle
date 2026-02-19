@@ -1,0 +1,32 @@
+[package]
+name = "pdf-search-core"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Core library for PDF ingestion and multi-layer search over industrial documentation."
+readme = "README.md"
+keywords = ["pdf", "search", "retrieval", "rag", "vector-search", "keyword-search"]
+categories = ["text-processing", "database"]
+documentation = "https://docs.rs/pdf-search-core"
+include = ["src/**/*", "README.md"]
+
+[dependencies]
+async-trait = "0.1"
+chrono = { version = "0.4", default-features = false, features = ["clock", "serde"] }
+lopdf = "0.33"
+regex = "1"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "blocking"] }
+base64 = "0.22"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+thiserror = "1"
+url = "2"
+walkdir = "2"
+serde_with = "3"
+uuid = { version = "1", features = ["v4", "serde"] }
+anyhow = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "fs", "process"] }
+
+[dev-dependencies]
+tempfile = "3"

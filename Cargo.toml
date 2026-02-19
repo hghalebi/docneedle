@@ -1,0 +1,16 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/core",
+    "crates/app",
+]
+
+[workspace.package]
+edition = "2021"
+version = "0.1.0"
+rust-version = "1.76"
+license = "MIT"
+description = "A production-oriented PDF search engine with keyword, vector, and graph retrieval."
+readme = "README.md"
+homepage = "https://crates.io/crates/pdf-search-core"
+repository = "https://crates.io/crates/pdf-search-core"

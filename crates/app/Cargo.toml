@@ -1,0 +1,19 @@
+[package]
+name = "pdf-search-cli"
+version = "0.1.0"
+edition = "2021"
+description = "CLI to ingest PDFs and query the multi-store search stack."
+publish = false
+readme = "README.md"
+keywords = ["pdf", "search", "cli", "rag"]
+categories = ["command-line-utilities"]
+include = ["src/**/*", "README.md"]
+
+[dependencies]
+pdf-search-core = { version = "0.1.0", path = "../core" }
+anyhow = "1"
+clap = { version = "4", features = ["derive", "env"] }
+chrono = { version = "0.4", default-features = false, features = ["clock", "serde"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "fs", "process"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["fmt", "env-filter", "time"] }
