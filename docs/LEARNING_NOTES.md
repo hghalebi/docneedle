@@ -18,7 +18,7 @@
 
 ## Key concepts/patterns
 
-- Dependency Inversion: `docneedle-cli` (crate `pdf-search-cli`) depends on abstractions exposed by `docneedle-core` (crate `pdf-search-core`).
+- Dependency Inversion: `docneedle-cli` (package `pdf-search-cli`) depends on abstractions exposed by `docneedle-core` (package `pdf-search-core`).
 - Strategy pattern: different store implementations satisfy shared traits.
 - Deterministic IDs and reproducibility: document fingerprint and chunking cursors.
 - RAII-style resource lifetime through CLI scopes and async clients.

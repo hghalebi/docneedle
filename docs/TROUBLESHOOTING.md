@@ -24,7 +24,8 @@ Check:
 Fixes:
 - Retry with simpler query text.
 - Validate ingestion produced chunks.
-- Run `cargo run -p pdf-search-cli -- ingest --folder ./pdfs` and inspect logs for skipped files. (Project alias: docneedle CLI.)
+- Run `cargo run -p pdf-search-cli -- ingest --folder ./pdfs` and inspect logs for skipped files.
+- Use `DOCNEEDLE_CLI=pdf-search-cli` for command consistency.
 
 ## 3) OCR fallback not triggered
 
@@ -54,7 +55,8 @@ Fixes:
 
 Fixes:
 - Reindex after updates to chunking or extractor behavior:
-  - `cargo run -p pdf-search-cli -- ingest --folder ./pdfs` (docneedle CLI)
+  - `DOCNEEDLE_CLI=pdf-search-cli`
+  - `cargo run -p "$DOCNEEDLE_CLI" -- ingest --folder ./pdfs`
 - Ensure source files are still readable at ingestion time.
 
 ## Escalation

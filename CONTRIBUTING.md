@@ -24,6 +24,7 @@ just bootstrap
 - Optional local checks:
   - `cargo fmt --all -- --check`
   - `cargo clippy --all-targets --all-features -- -D warnings`
+  - `cargo doc --workspace --no-deps --all-features --document-private-items`
 
 ## Coding expectations
 

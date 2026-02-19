@@ -1,4 +1,4 @@
-# docneedle Setup (Option 3)
+# docneedle
 
 ## Open Source Status
 
@@ -33,6 +33,11 @@ cargo test
 cargo fmt --all -- --check
 cargo clippy --all-targets --all-features -- -D warnings
 ```
+
+## Current project identity
+
+- Public brand: `docneedle`
+- Workspace crate names currently used in code: `pdf-search-core` and `pdf-search-cli`
 
 ## CI quality gate
 

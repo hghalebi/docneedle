@@ -1,6 +1,6 @@
 # docneedle Core
 
-# `docneedle-core` is a Rust library (crate name `pdf-search-core`) that provides PDF ingestion and retrieval
+`docneedle-core` is a Rust library (crate name `pdf-search-core`) that provides PDF ingestion and retrieval
 building blocks for a multi-layer industrial search stack.
 
 ## Core responsibilities

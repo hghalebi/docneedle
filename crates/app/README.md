@@ -1,24 +1,26 @@
 # docneedle CLI
 
-CLI entrypoint for the docneedle PDF retrieval stack.
-(Cargo package name in this repository is currently `pdf-search-cli`.)
+CLI entrypoint for the docneedle PDF retrieval stack. Package name in this repository: `pdf-search-cli`.
 
 ## Usage
 
 - Ingest PDFs:
 
 ```bash
-cargo run -p pdf-search-cli -- ingest --folder ./pdfs
+DOCNEEDLE_CLI=pdf-search-cli
+cargo run -p "$DOCNEEDLE_CLI" -- ingest --folder ./pdfs
 ```
 
 - Search chunks:
 
 ```bash
-cargo run -p pdf-search-cli -- search --query "pump pressure" --top-k 10
+DOCNEEDLE_CLI=pdf-search-cli
+cargo run -p "$DOCNEEDLE_CLI" -- search --query "pump pressure" --top-k 10
 ```
 
 - Include full document extraction in the output:
 
 ```bash
-cargo run -p pdf-search-cli -- search --query "pump pressure" --include-document-text
+DOCNEEDLE_CLI=pdf-search-cli
+cargo run -p "$DOCNEEDLE_CLI" -- search --query "pump pressure" --include-document-text
 ```

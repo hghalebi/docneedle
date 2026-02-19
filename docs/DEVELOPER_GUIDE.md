@@ -3,7 +3,7 @@
 ## Repository layout
 
 - `crates/core`: domain logic, models, store adapters, orchestration.
-- `crates/app`: CLI and runtime wiring (`docneedle-cli`, crate name: `pdf-search-cli`).
+- `crates/app`: CLI and runtime wiring (`docneedle-cli`, package name: `pdf-search-cli`).
 - `scripts`: bootstrap automation.
 - `deploy`: docker-compose services used by local stack.
 - `examples`: sample PDFs.

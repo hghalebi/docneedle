@@ -40,7 +40,7 @@ Weights are fused to balance precision and recall while preserving evidence prov
 ## Current risks
 
 - Additional infrastructure increases ops overhead.
-- OCR endpoint availability impacts scanned legacy document recall.
+- OCR endpoint availability impacts scanned archival document recall.
 - Relevance quality depends on chunking and filter configuration.
 
 ## Success metrics

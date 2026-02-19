@@ -27,6 +27,8 @@ The CLI supports two commands:
 cp .env.example .env
 ```
 
+The project command package currently used is `pdf-search-cli`.
+
 2. Boot services and initialize schema/indexes:
 
 ```bash
@@ -36,19 +38,22 @@ just bootstrap
 3. Ingest recursive folder:
 
 ```bash
-cargo run -p pdf-search-cli -- ingest --folder ./pdfs
+DOCNEEDLE_CLI=pdf-search-cli
+cargo run -p "$DOCNEEDLE_CLI" -- ingest --folder ./pdfs
 ```
 
 4. Search:
 
 ```bash
-cargo run -p pdf-search-cli -- search --query "pump pressure" --top-k 5
+DOCNEEDLE_CLI=pdf-search-cli
+cargo run -p "$DOCNEEDLE_CLI" -- search --query "pump pressure" --top-k 5
 ```
 
 5. Show full document text for returned hits:
 
 ```bash
-cargo run -p pdf-search-cli -- search --query "pump" --include-document-text --document-text-max-pages 2
+DOCNEEDLE_CLI=pdf-search-cli
+cargo run -p "$DOCNEEDLE_CLI" -- search --query "pump" --include-document-text --document-text-max-pages 2
 ```
 
 ## Command options
