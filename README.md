@@ -1,20 +1,15 @@
 # docneedle
 
-## Open Source Status
+## About docneedle
 
-This project is prepared for public OSS release.
+docneedle is a Rust workspace for industrial-document search where traceability is as important as relevance.
+It combines:
+- exact terminology matching (keyword search),
+- semantic similarity (vector search),
+- and citation-aware graph expansion (reference relationships).
 
-### What is included for OSS readiness
-
-- `LICENSE` (MIT)
-- `CONTRIBUTING.md`
-- `CODE_OF_CONDUCT.md`
-- `SECURITY.md`
-- `CHANGELOG.md`
-
-Update repository metadata in `Cargo.toml`:
-- `homepage`
-- `repository`
+The project is designed for engineering teams that need reliable answer traces from manuals, standards, and requirement documents,
+with resilient ingestion for large or imperfect PDF libraries.
 
 ## Documentation
 
