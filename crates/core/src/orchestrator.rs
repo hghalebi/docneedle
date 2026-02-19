@@ -1,5 +1,5 @@
-use crate::traits::{GraphIndex, KeywordIndex, VectorIndex};
 use crate::embeddings::{CharacterNgramEmbedder, Embedder};
+use crate::traits::{GraphIndex, KeywordIndex, VectorIndex};
 use crate::{SearchCandidate, SearchError, SearchMode, SearchQuery, SearchResult};
 use std::collections::HashMap;
 
@@ -48,7 +48,11 @@ where
         apply_rrf(&mut scored, &vector_hits, 0.35);
 
         let candidate_ids = scored.keys().cloned().collect::<Vec<_>>();
-        let graph_hits = self.graph.related_chunks(&candidate_ids).await.unwrap_or_default();
+        let graph_hits = self
+            .graph
+            .related_chunks(&candidate_ids)
+            .await
+            .unwrap_or_default();
         if !graph_hits.is_empty() {
             apply_rrf(&mut scored, &graph_hits, 0.10);
         }
@@ -64,7 +68,10 @@ where
         let mode_scores = vec![
             ("keyword".to_string(), 0.55),
             ("vector".to_string(), 0.35),
-            ("graph".to_string(), if graph_hits.is_empty() { 0.0 } else { 0.10 }),
+            (
+                "graph".to_string(),
+                if graph_hits.is_empty() { 0.0 } else { 0.10 },
+            ),
         ];
 
         let mode_scores = mode_scores
@@ -167,8 +174,6 @@ fn dominant_mode(modes: &[SearchMode]) -> SearchMode {
         SearchMode::Graph
     } else if modes.contains(&SearchMode::Vector) {
         SearchMode::Vector
-    } else if modes.contains(&SearchMode::Keyword) {
-        SearchMode::Keyword
     } else {
         SearchMode::Keyword
     }
@@ -211,11 +216,17 @@ mod tests {
 
     #[async_trait]
     impl KeywordIndex for FakeKeywordIndex {
-        async fn index_keyword_chunks(&self, _chunks: &[crate::PdfChunk]) -> Result<(), SearchError> {
+        async fn index_keyword_chunks(
+            &self,
+            _chunks: &[crate::PdfChunk],
+        ) -> Result<(), SearchError> {
             Ok(())
         }
 
-        async fn search_keyword(&self, _query: &SearchQuery) -> Result<Vec<SearchCandidate>, SearchError> {
+        async fn search_keyword(
+            &self,
+            _query: &SearchQuery,
+        ) -> Result<Vec<SearchCandidate>, SearchError> {
             Ok(self.hits.clone())
         }
     }
@@ -241,11 +252,17 @@ mod tests {
 
     #[async_trait]
     impl GraphIndex for FakeGraphIndex {
-        async fn sync_graph_relations(&self, _chunks: &[crate::PdfChunk]) -> Result<(), SearchError> {
+        async fn sync_graph_relations(
+            &self,
+            _chunks: &[crate::PdfChunk],
+        ) -> Result<(), SearchError> {
             Ok(())
         }
 
-        async fn related_chunks(&self, _chunk_ids: &[String]) -> Result<Vec<SearchCandidate>, SearchError> {
+        async fn related_chunks(
+            &self,
+            _chunk_ids: &[String],
+        ) -> Result<Vec<SearchCandidate>, SearchError> {
             Ok(self.hits.clone())
         }
     }
@@ -301,7 +318,10 @@ mod tests {
             explain: false,
         };
 
-        let result = coordinator.search(&query).await.expect("search should succeed");
+        let result = coordinator
+            .search(&query)
+            .await
+            .expect("search should succeed");
         assert_eq!(result.hits.len(), 1);
         assert_eq!(result.hits[0].chunk_id, "chunk-1");
         assert_eq!(result.hits[0].mode, SearchMode::Vector);

@@ -1,4 +1,4 @@
-use crate::models::{SearchCandidate, PdfChunk, SearchQuery};
+use crate::models::{PdfChunk, SearchCandidate, SearchQuery};
 
 pub type SearchHit = SearchCandidate;
 

@@ -70,9 +70,7 @@ mod tests {
 
     #[test]
     fn embedder_outputs_expected_length() {
-        let embedder = CharacterNgramEmbedder {
-            dimensions: 32,
-        };
+        let embedder = CharacterNgramEmbedder { dimensions: 32 };
         let vector = embedder.embed("abc");
         assert_eq!(vector.len(), 32);
     }

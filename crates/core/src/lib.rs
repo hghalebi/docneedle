@@ -14,9 +14,13 @@ pub use embeddings::{CharacterNgramEmbedder, Embedder, DEFAULT_EMBEDDING_DIMENSI
 pub use error::{IngestError, SearchError};
 pub use extractor::{extract_page_texts, PageText, PdfExtractor};
 pub use ingest::{
-    discover_pdf_files, ingest_folder_chunks, ingest_folder_chunks_best_effort, IngestionReport, SkippedPdf,
+    discover_pdf_files, ingest_folder_chunks, ingest_folder_chunks_best_effort, IngestionReport,
+    SkippedPdf,
 };
-pub use models::{ChunkKind, DocumentFingerprint, IngestionOptions, PdfChunk, QueryFilters, SearchCandidate, SearchMode, SearchQuery, SearchResult};
+pub use models::{
+    ChunkKind, DocumentFingerprint, IngestionOptions, PdfChunk, QueryFilters, SearchCandidate,
+    SearchMode, SearchQuery, SearchResult,
+};
 pub use orchestrator::SearchCoordinator;
 pub use stores::{Neo4jStore, OpenSearchStore, QdrantStore};
 pub use traits::{GraphIndex, KeywordIndex, VectorIndex};

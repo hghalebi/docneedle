@@ -30,10 +30,7 @@ pub enum IngestError {
 #[derive(Debug, Error)]
 pub enum SearchError {
     #[error("invalid response from {backend}: {details}")]
-    BackendResponse {
-        backend: String,
-        details: String,
-    },
+    BackendResponse { backend: String, details: String },
 
     #[error("http error: {0}")]
     Http(#[from] reqwest::Error),

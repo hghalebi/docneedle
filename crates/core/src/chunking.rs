@@ -21,8 +21,7 @@ impl From<IngestionOptions> for ChunkingConfig {
 }
 
 pub fn normalize_whitespace(text: &str) -> String {
-    text
-        .split_whitespace()
+    text.split_whitespace()
         .collect::<Vec<_>>()
         .join(" ")
         .replace('\u{a0}', " ")
@@ -167,11 +166,19 @@ fn make_chunk_id(document_id: &str, page: u32, index: u64, text: &str) -> String
 }
 
 fn extract_unit_tokens(text: &str) -> Vec<String> {
-    const UNITS: [&str; 11] = ["mm", "cm", "m", "in", "psi", "bar", "kpa", "pa", "%", "rpm", "hz"];
+    const UNITS: [&str; 11] = [
+        "mm", "cm", "m", "in", "psi", "bar", "kpa", "pa", "%", "rpm", "hz",
+    ];
     let lowered = text.to_lowercase();
     UNITS
         .iter()
-        .filter_map(|unit| if lowered.contains(unit) { Some((*unit).to_string()) } else { None })
+        .filter_map(|unit| {
+            if lowered.contains(unit) {
+                Some((*unit).to_string())
+            } else {
+                None
+            }
+        })
         .collect()
 }
 
@@ -213,6 +220,8 @@ mod tests {
 
         assert!(!result.is_empty());
         assert_eq!(result[0].document_id, "doc-1");
-        assert!(result[0].kind == super::ChunkKind::Heading || result[0].kind == ChunkKind::Paragraph);
+        assert!(
+            result[0].kind == super::ChunkKind::Heading || result[0].kind == ChunkKind::Paragraph
+        );
     }
 }

@@ -1,6 +1,6 @@
-use crate::{traits::KeywordIndex, SearchCandidate, SearchError, SearchMode, SearchQuery};
 use crate::models::PdfChunk;
 use crate::traits::VectorIndex;
+use crate::{traits::KeywordIndex, SearchCandidate, SearchError, SearchMode, SearchQuery};
 use async_trait::async_trait;
 use reqwest::Client;
 use reqwest::StatusCode;
@@ -144,7 +144,10 @@ impl KeywordIndex for OpenSearchStore {
         Ok(())
     }
 
-    async fn search_keyword(&self, query: &SearchQuery) -> Result<Vec<SearchCandidate>, SearchError> {
+    async fn search_keyword(
+        &self,
+        query: &SearchQuery,
+    ) -> Result<Vec<SearchCandidate>, SearchError> {
         let body = json!({
             "size": query.top_k,
             "query": {
@@ -191,7 +194,7 @@ impl KeywordIndex for OpenSearchStore {
         let mut result = Vec::new();
 
         for raw in hits {
-            let source = raw.pointer("_source").cloned().unwrap_or_else(|| Value::Null);
+            let source = raw.pointer("_source").cloned().unwrap_or(Value::Null);
             let chunk_id = raw
                 .pointer("/_id")
                 .and_then(Value::as_str)
@@ -208,7 +211,10 @@ impl KeywordIndex for OpenSearchStore {
                 .unwrap_or_default()
                 .to_string();
 
-            let score = raw.pointer("/_score").and_then(Value::as_f64).unwrap_or(0.0);
+            let score = raw
+                .pointer("/_score")
+                .and_then(Value::as_f64)
+                .unwrap_or(0.0);
             let text = source
                 .pointer("text_raw")
                 .and_then(Value::as_str)

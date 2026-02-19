@@ -1,5 +1,5 @@
-use crate::{PdfChunk, SearchCandidate, SearchError, SearchMode, SearchQuery};
 use crate::traits::{KeywordIndex, VectorIndex};
+use crate::{PdfChunk, SearchCandidate, SearchError, SearchMode, SearchQuery};
 use async_trait::async_trait;
 use reqwest::Client;
 use serde_json::{json, Value};
@@ -12,7 +12,11 @@ pub struct QdrantStore {
 }
 
 impl QdrantStore {
-    pub fn new(endpoint: impl Into<String>, collection: impl Into<String>, vector_size: usize) -> Self {
+    pub fn new(
+        endpoint: impl Into<String>,
+        collection: impl Into<String>,
+        vector_size: usize,
+    ) -> Self {
         Self {
             endpoint: endpoint.into(),
             collection: collection.into(),
@@ -38,7 +42,10 @@ impl KeywordIndex for QdrantStore {
         Ok(())
     }
 
-    async fn search_keyword(&self, _query: &SearchQuery) -> Result<Vec<SearchCandidate>, SearchError> {
+    async fn search_keyword(
+        &self,
+        _query: &SearchQuery,
+    ) -> Result<Vec<SearchCandidate>, SearchError> {
         Ok(Vec::new())
     }
 }

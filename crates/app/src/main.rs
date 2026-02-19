@@ -1,17 +1,15 @@
-use clap::{Parser, Subcommand};
 use chrono::Utc;
+use clap::{Parser, Subcommand};
+use pdf_search_core::extract_page_texts;
 use pdf_search_core::{
     ingest_folder_chunks_best_effort, CharacterNgramEmbedder, IngestionOptions, Neo4jStore,
-    OpenSearchStore, QdrantStore, SearchCoordinator, SearchQuery, SearchError, VectorIndex,
+    OpenSearchStore, QdrantStore, SearchCoordinator, SearchError, SearchQuery, VectorIndex,
 };
-use pdf_search_core::{
-    Embedder, GraphIndex, KeywordIndex,
-};
-use pdf_search_core::extract_page_texts;
+use pdf_search_core::{Embedder, GraphIndex, KeywordIndex};
 use std::collections::HashSet;
 use std::path::Path;
 use tracing::{info, warn};
-use tracing_subscriber::{fmt, EnvFilter, prelude::*};
+use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 
 #[derive(Parser)]
 #[command(name = "pdf-search-engine", version)]
@@ -217,10 +215,11 @@ async fn main() -> anyhow::Result<()> {
                 if let Some(text) = &hit.text {
                     println!("  chunk_text:\n{text}");
                 }
-                if include_document_text && !hit.source_path.is_empty() {
-                    if emitted_documents.insert(hit.source_path.clone()) {
-                        document_order.push(hit.source_path);
-                    }
+                if include_document_text
+                    && !hit.source_path.is_empty()
+                    && emitted_documents.insert(hit.source_path.clone())
+                {
+                    document_order.push(hit.source_path);
                 }
             }
 

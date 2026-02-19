@@ -1,5 +1,5 @@
-use crate::{PdfChunk, SearchCandidate, SearchError, SearchMode};
 use crate::traits::GraphIndex;
+use crate::{PdfChunk, SearchCandidate, SearchError, SearchMode};
 use async_trait::async_trait;
 use reqwest::Client;
 use serde_json::{json, Value};
@@ -92,7 +92,10 @@ impl GraphIndex for Neo4jStore {
         Ok(())
     }
 
-    async fn related_chunks(&self, chunk_ids: &[String]) -> Result<Vec<SearchCandidate>, SearchError> {
+    async fn related_chunks(
+        &self,
+        chunk_ids: &[String],
+    ) -> Result<Vec<SearchCandidate>, SearchError> {
         if chunk_ids.is_empty() {
             return Ok(Vec::new());
         }
@@ -139,14 +142,18 @@ impl GraphIndex for Neo4jStore {
 
         let mut hits = Vec::new();
         for row in rows {
-                if let Some(values) = row.as_array() {
+            if let Some(values) = row.as_array() {
                 if values.len() >= 6 {
                     let chunk_id = values
                         .get(1)
                         .and_then(Value::as_str)
                         .unwrap_or_default()
                         .to_string();
-                    let text = values.get(2).and_then(Value::as_str).unwrap_or_default().to_string();
+                    let text = values
+                        .get(2)
+                        .and_then(Value::as_str)
+                        .unwrap_or_default()
+                        .to_string();
                     let source_path = values
                         .get(4)
                         .and_then(Value::as_str)
@@ -188,7 +195,7 @@ fn extract_rows(payload: &Value) -> Vec<&Value> {
                         row_entry
                             .pointer("row")
                             .or(Some(row_entry))
-                            .filter(|candidate| Value::is_array(*candidate))
+                            .filter(|candidate| Value::is_array(candidate))
                     })
                     .collect::<Vec<_>>()
                     .into_iter()
@@ -203,7 +210,7 @@ fn extract_rows(payload: &Value) -> Vec<&Value> {
                         row_entry
                             .pointer("row")
                             .or(Some(row_entry))
-                            .filter(|candidate| Value::is_array(*candidate))
+                            .filter(|candidate| Value::is_array(candidate))
                     })
                     .collect::<Vec<_>>()
             })

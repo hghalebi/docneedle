@@ -41,25 +41,13 @@ pub struct PdfChunk {
     pub units: Vec<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash, Default)]
 pub struct QueryFilters {
     pub standard: Option<String>,
     pub version: Option<String>,
     pub section_path: Option<String>,
     pub clause_id: Option<String>,
     pub path_prefix: Option<String>,
-}
-
-impl Default for QueryFilters {
-    fn default() -> Self {
-        Self {
-            standard: None,
-            version: None,
-            section_path: None,
-            clause_id: None,
-            path_prefix: None,
-        }
-    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq, Hash)]

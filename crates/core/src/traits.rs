@@ -1,6 +1,4 @@
-use crate::{
-    SearchError, SearchQuery, SearchCandidate,
-};
+use crate::{SearchCandidate, SearchError, SearchQuery};
 use async_trait::async_trait;
 
 #[async_trait]
@@ -30,10 +28,10 @@ pub trait VectorIndex {
 
 #[async_trait]
 pub trait GraphIndex {
-    async fn sync_graph_relations(
-        &self,
-        chunks: &[crate::PdfChunk],
-    ) -> Result<(), SearchError>;
+    async fn sync_graph_relations(&self, chunks: &[crate::PdfChunk]) -> Result<(), SearchError>;
 
-    async fn related_chunks(&self, chunk_ids: &[String]) -> Result<Vec<SearchCandidate>, SearchError>;
+    async fn related_chunks(
+        &self,
+        chunk_ids: &[String],
+    ) -> Result<Vec<SearchCandidate>, SearchError>;
 }

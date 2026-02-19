@@ -46,7 +46,8 @@ pub struct LopdfExtractor;
 
 impl PdfExtractor for LopdfExtractor {
     fn extract_pages(&self, path: &Path) -> Result<Vec<PageText>, IngestError> {
-        let document = Document::load(path).map_err(|error| IngestError::PdfParse(error.to_string()))?;
+        let document =
+            Document::load(path).map_err(|error| IngestError::PdfParse(error.to_string()))?;
 
         let mut pages = Vec::new();
         for (page_no, _page_id) in document.get_pages() {
@@ -74,19 +75,17 @@ impl PdfExtractor for LopdfExtractor {
 }
 
 pub fn extract_page_texts(path: &Path) -> Result<Vec<PageText>, IngestError> {
-    let extracted = LopdfExtractor::default().extract_pages(path);
+    let extracted = LopdfExtractor.extract_pages(path);
 
     match extracted {
         Ok(pages) => Ok(pages),
-        Err(IngestError::PdfParse(parse_error)) => {
-            match extract_with_llm_ocr(path) {
-                Ok(Some(pages)) => Ok(pages),
-                Ok(None) => Err(IngestError::PdfParse(parse_error)),
-                Err(ocr_error) => Err(IngestError::PdfParse(format!(
-                    "{parse_error}; multimodal OCR fallback failed: {ocr_error}"
-                ))),
-            }
-        }
+        Err(IngestError::PdfParse(parse_error)) => match extract_with_llm_ocr(path) {
+            Ok(Some(pages)) => Ok(pages),
+            Ok(None) => Err(IngestError::PdfParse(parse_error)),
+            Err(ocr_error) => Err(IngestError::PdfParse(format!(
+                "{parse_error}; multimodal OCR fallback failed: {ocr_error}"
+            ))),
+        },
         Err(error) => Err(error),
     }
 }
@@ -98,16 +97,14 @@ fn parse_llm_ocr_config() -> Option<OcrEndpointConfig> {
         return None;
     }
 
-    let api_key = std::env::var("LLM_OCR_API_KEY")
-        .ok()
-        .and_then(|value| {
-            let key = value.trim().to_string();
-            if key.is_empty() {
-                None
-            } else {
-                Some(key)
-            }
-        });
+    let api_key = std::env::var("LLM_OCR_API_KEY").ok().and_then(|value| {
+        let key = value.trim().to_string();
+        if key.is_empty() {
+            None
+        } else {
+            Some(key)
+        }
+    });
 
     Some(OcrEndpointConfig { endpoint, api_key })
 }

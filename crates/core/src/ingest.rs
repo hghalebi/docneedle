@@ -1,8 +1,6 @@
 use crate::{
-    build_chunks,
-    chunking::normalize_whitespace,
-    extract_page_texts,
-    DocumentFingerprint, IngestError, IngestionOptions, PdfChunk,
+    build_chunks, chunking::normalize_whitespace, extract_page_texts, DocumentFingerprint,
+    IngestError, IngestionOptions, PdfChunk,
 };
 use chrono::Utc;
 use sha2::{Digest, Sha256};
@@ -120,9 +118,12 @@ pub fn ingest_folder_chunks_best_effort(
 
 fn build_document_fingerprint(path: &Path) -> Result<DocumentFingerprint, IngestError> {
     let checksum = digest_file(path)?;
-    let name = path.file_name().and_then(|name| name.to_str()).ok_or_else(|| {
-        IngestError::MissingFileName(format!("path missing filename: {}", path.display()))
-    })?;
+    let name = path
+        .file_name()
+        .and_then(|name| name.to_str())
+        .ok_or_else(|| {
+            IngestError::MissingFileName(format!("path missing filename: {}", path.display()))
+        })?;
 
     Ok(DocumentFingerprint {
         document_id: generate_document_id(path),
@@ -156,8 +157,7 @@ mod tests {
         let nested = base.join("nested");
         fs::create_dir(&nested)?;
 
-        File::create(base.join("a.pdf"))
-            .and_then(|mut file| file.write_all(b"%PDF-1.4\n%fake"))?;
+        File::create(base.join("a.pdf")).and_then(|mut file| file.write_all(b"%PDF-1.4\n%fake"))?;
         File::create(nested.join("b.pdf"))
             .and_then(|mut file| file.write_all(b"%PDF-1.4\n%fake"))?;
 
@@ -197,7 +197,13 @@ mod tests {
 
         assert_eq!(report.chunks.len(), 0);
         assert_eq!(report.skipped_files.len(), 1);
-        assert_eq!(report.skipped_files[0].path.file_name().and_then(|name| name.to_str()), Some("unreadable.pdf"));
+        assert_eq!(
+            report.skipped_files[0]
+                .path
+                .file_name()
+                .and_then(|name| name.to_str()),
+            Some("unreadable.pdf")
+        );
         Ok(())
     }
 }
